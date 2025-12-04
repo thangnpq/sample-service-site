@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 0
         continue-on-error: true
       - name: Copy kuroco_front.json
-        run: cp public/kuroco_front_stg.json public/kuroco_front.json 
+        run: cp public/kuroco_front_stg.json public/kuroco_front.json
       - name: Fallback checkout if branch not found
         if: failure()
         uses: actions/checkout@v4
@@ -101,6 +101,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
+      - name: Copy kuroco_front.json
+        run: cp public/kuroco_front_stg.json public/kuroco_front.json
       - name: CI Cache
         uses: actions/cache@v4
         id: node_modules_cache_id
