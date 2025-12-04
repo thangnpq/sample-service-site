@@ -10,7 +10,6 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
 env:
   APP_ENV: production
 
@@ -24,7 +23,7 @@ jobs:
       - name: "Get branch name and sha"
         id: get_branch
         run: |
-          PR=$(curl -H "X-Kuroco-Auth: token d2f2a95d64c29c2d1233af81ad5bab31" https://thang-test.g.kuroco.app/direct/menu/github/?pr=${{ github.event.issue.pull_request.url }})
+          PR=$(curl -H "X-Kuroco-Auth: token b69460325575b5e4985cf2dfb8766f25" https://vn-kuroco.g.kuroco.app/direct/menu/github/?pr=${{ github.event.issue.pull_request.url }})
           echo "branch=$(echo $PR | jq -r '.ref')" >> $GITHUB_OUTPUT
           echo "sha=$(echo $PR | jq -r '.sha')" >> $GITHUB_OUTPUT
       - name: Checkout Repo
@@ -69,9 +68,9 @@ jobs:
       - name: Webhook
         uses: diverta/workflow-webhook@v3
         with:
-          webhook_url: "https://thang-test.g.kuroco.app/direct/menu/github/"
-          webhook_secret: "d2f2a95d64c29c2d1233af81ad5bab31"
-          data: '{"single_zip":"1","domain":"thang-test.g.kuroco-front.app","pr":"${{ github.event.issue.pull_request.url }}",  "repository":"${{ github.repository }}", "run_id":"${{ github.run_id }}", "hash":"${{ steps.get_branch.outputs.sha }}"}'
+          webhook_url: "https://vn-kuroco.g.kuroco.app/direct/menu/github/"
+          webhook_secret: "b69460325575b5e4985cf2dfb8766f25"
+          data: '{"single_zip":"1","domain":"vn-kuroco.g.kuroco-front.app","pr":"${{ github.event.issue.pull_request.url }}",  "repository":"${{ github.repository }}", "run_id":"${{ github.run_id }}", "hash":"${{ steps.get_branch.outputs.sha }}"}'
           
   #for Push
   pushed_build:
@@ -110,6 +109,6 @@ jobs:
       - name: Webhook
         uses: diverta/workflow-webhook@v3
         with:
-          webhook_url: "https://thang-test.g.kuroco.app/direct/menu/github/"
-          webhook_secret: "d2f2a95d64c29c2d1233af81ad5bab31"
-          data: '{"single_zip":"1","domain":"thang-test.g.kuroco-front.app", "repository":"${{ github.repository }}", "run_id":"${{ github.run_id }}", "hash":"${{ github.sha }}"}'
+          webhook_url: "https://vn-kuroco.g.kuroco.app/direct/menu/github/"
+          webhook_secret: "b69460325575b5e4985cf2dfb8766f25"
+          data: '{"single_zip":"1","domain":"vn-kuroco.g.kuroco-front.app", "repository":"${{ github.repository }}", "run_id":"${{ github.run_id }}", "hash":"${{ github.sha }}"}'
