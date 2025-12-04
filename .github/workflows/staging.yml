@@ -1,8 +1,8 @@
-name: Build and deploy to Kuroco front
+name: Build and deploy to Kuroco front(stg)
 on:
   push:
     branches:
-      - main
+      - stg
   issue_comment:
     types: [created, edited]
   workflow_dispatch:
@@ -12,8 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  APP_ENV: production
-
+  APP_ENV: staging
 jobs:
   # for Pull Request (exclude merged)
   pullreq_build:
@@ -33,6 +32,8 @@ jobs:
           ref: ${{ steps.get_branch.outputs.branch }}
           fetch-depth: 0
         continue-on-error: true
+      - name: Copy kuroco_front.json
+        run: cp public/kuroco_front_stg.json public/kuroco_front.json
       - name: Fallback checkout if branch not found
         if: failure()
         uses: actions/checkout@v4
@@ -100,6 +101,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
+      - name: Copy kuroco_front.json
+        run: cp public/kuroco_front_stg.json public/kuroco_front.json
       - name: CI Cache
         uses: actions/cache@v4
         id: node_modules_cache_id
